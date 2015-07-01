@@ -1,0 +1,17 @@
+# testing automation
+tox>=1.7.2
+
+# coding standards
+hacking
+
+# test coverage
+coverage>=3.6
+coveralls
+
+# Docs Requirements
+Sphinx>=1.3.1
+alabaster
+
+# testing
+nose
+oslotest

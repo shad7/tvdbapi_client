@@ -1,0 +1,24 @@
+[DEFAULT]
+
+#
+# From tvdbapi_client
+#
+
+# thetvdb api key (string value)
+#apikey = <None>
+
+# thetvdb user login name (string value)
+#username = <None>
+
+# thetvdb user password (string value)
+#userpass = <None>
+
+# the url for thetvdb api service (string value)
+#service_url = https://api-dev.thetvdb.com
+
+# flag for validating ssl certs for service url (https) (boolean
+# value)
+#verify_ssl_certs = true
+
+# flag for selecting first series from search results (boolean value)
+#select_first = false
