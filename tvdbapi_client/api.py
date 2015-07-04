@@ -48,10 +48,6 @@ class TVDBClient(object):
         :param str username: username used on thetvdb
         :param str userpass: password used on thetvdb
         """
-        print(cfg.CONF.apikey, cfg.CONF.username, cfg.CONF.userpass,
-              cfg.CONF.service_url, cfg.CONF.verify_ssl_certs,
-              cfg.CONF.select_first)
-
         self.__apikey = apikey or cfg.CONF.apikey
         self.__username = username or cfg.CONF.username
         self.__userpass = userpass or cfg.CONF.userpass

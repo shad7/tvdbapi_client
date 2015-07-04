@@ -1,14 +1,19 @@
+import os
+
 from oslo.config import cfg
 
 
 OPTS = [
     cfg.StrOpt('apikey',
                secret=True,
+               default=os.environ.get('TVDB_API_KEY'),
                help='thetvdb api key'),
     cfg.StrOpt('username',
+               default=os.environ.get('TVDB_USERNAME'),
                help='thetvdb user login name'),
     cfg.StrOpt('userpass',
                secret=True,
+               default=os.environ.get('TVDB_PASSWORD'),
                help='thetvdb user password'),
     cfg.StrOpt('service_url',
                default='https://api-dev.thetvdb.com',
