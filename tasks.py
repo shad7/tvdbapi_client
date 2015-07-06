@@ -217,7 +217,6 @@ def clean(all=False, docs=False, dist=False, extra=None):
     patterns = ['build', '*.egg-info/', '**/*.pyc']
     if all or docs:
         patterns.append('doc/build/html/*')
-        patterns.append('doc/source/api')
     if all or dist:
         patterns.append('dist')
     if extra:
