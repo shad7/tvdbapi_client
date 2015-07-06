@@ -1,6 +1,13 @@
 TVDB Api Client
 ===============
 
+.. image:: https://travis-ci.org/shad7/tvdbapi_client.svg?branch=develop
+    :target: https://travis-ci.org/shad7/tvdbapi_client
+
+.. image:: https://coveralls.io/repos/shad7/tvdbapi_client/badge.svg?branch=develop
+  :target: https://coveralls.io/r/shad7/tvdbapi_client?branch=develop
+
+
 Python client for theTVDB API (v1.2+) REST endpoints in json format.
 
 
@@ -69,3 +76,10 @@ Configuring service can be done by either of the following:
 * passing individual inputs directly to `tvdbapi_client.get_client`
 * passing path to configuration file to `tvdbapi_client.get_client`
 * setting environment variables as noted above
+
+
+Documentation
+-------------
+
+Documentation is available at http://tvdbapi-client.readthedocs.org/.
+
