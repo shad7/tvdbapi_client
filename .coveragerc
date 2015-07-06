@@ -1,0 +1,15 @@
+[run]
+branch = True
+source = tvdbapi_client
+omit = tvdbapi_client/tests/*
+
+[report]
+ignore-errors = True
+
+exclude_lines =
+    # Have to re-enable the standard pragma
+    pragma: no cover
+
+    # Don't complain if tests don't hit defensive assertion code:
+    raise NotImplementedError
+

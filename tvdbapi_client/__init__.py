@@ -5,7 +5,6 @@ import logging
 import pbr.version
 
 logging.getLogger(__package__).addHandler(logging.NullHandler())
-logging.captureWarnings(True)
 
 version_info = pbr.version.VersionInfo(__package__)
 __version__ = version_info.version_string()
