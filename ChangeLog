@@ -1,3 +1,13 @@
 Changelog
 =========
 
+0.1
+---
+
+* [RELEASE] Update to version v0.1
+* [TASK] Added badges
+* [TASK] Enable external development services
+* [TASK] Final touches and clean up
+* [TASK] Added mock testing and more documentation
+* [FEATURE] Initial implementation, tests, and docs
+* initial commit
