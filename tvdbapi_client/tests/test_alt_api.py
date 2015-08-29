@@ -1,11 +1,11 @@
 import os
 import shutil
 
-from requests import exceptions
 from testtools import matchers
 
 import tvdbapi_client
 from tvdbapi_client import api
+from tvdbapi_client import exceptions
 from tvdbapi_client.tests import base
 from tvdbapi_client.tests import schema_helper
 
@@ -65,7 +65,7 @@ class MockedApiTest(base.BaseHTTPTest):
 
         self.stub_url(parts=['refresh_token'],
                       status_code=400)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.authenticate)
 
     def test_search_series(self):
@@ -101,7 +101,7 @@ class MockedApiTest(base.BaseHTTPTest):
         self.stub_url(parts=['search', 'series'],
                       params={'name': 'Fake Unknown Test'},
                       status_code=404)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.search_series,
                           name='Fake Unknown Test')
 
@@ -127,13 +127,13 @@ class MockedApiTest(base.BaseHTTPTest):
 
         self.stub_url(parts=['series', 0],
                       status_code=404)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_series,
                           0)
 
         self.stub_url(parts=['series', 0],
-                      exc=exceptions.RequestException)
-        self.assertRaises(exceptions.RequestException,
+                      exc=exceptions.TVDBRequestException)
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_series,
                           0)
 
@@ -157,7 +157,7 @@ class MockedApiTest(base.BaseHTTPTest):
 
         self.stub_url(parts=['series', 0, 'episodes'],
                       status_code=404)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episodes,
                           0)
 
@@ -173,7 +173,7 @@ class MockedApiTest(base.BaseHTTPTest):
 
         self.stub_url(parts=['series', 0, 'episodes', 'summary'],
                       status_code=404)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episodes_summary,
                           0)
 
@@ -189,7 +189,7 @@ class MockedApiTest(base.BaseHTTPTest):
 
         self.stub_url(parts=['series', 0, 'images'],
                       status_code=404)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_series_image_info,
                           0)
 
@@ -205,6 +205,6 @@ class MockedApiTest(base.BaseHTTPTest):
 
         self.stub_url(parts=['episodes', 0],
                       status_code=404)
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episode,
                           0)

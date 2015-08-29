@@ -3,10 +3,11 @@ import logging
 
 import cachecontrol
 from cachecontrol import caches
-from oslo.config import cfg
+from oslo_config import cfg
 import requests
 import six
 
+from tvdbapi_client import exceptions
 from tvdbapi_client import timeutil
 
 LOG = logging.getLogger(__name__)
@@ -92,6 +93,7 @@ class TVDBClient(object):
                 cache=caches.FileCache('.tvdb_cache'))
         return self._session
 
+    @exceptions.error_map
     def _exec_request(self, service, method=None, path_args=None, data=None,
                       params=None):
         """Execute request"""
@@ -109,12 +111,8 @@ class TVDBClient(object):
             'verify': cfg.CONF.verify_ssl_certs,
             }
 
-        try:
-            resp = self.session.request(**req)
-        except requests.exceptions.RequestException:
-            # request failed; not much we can do
-            LOG.exception('api failed (%s %s)', req['method'], req['url'])
-            raise
+        LOG.debug('executing request (%s %s)', req['method'], req['url'])
+        resp = self.session.request(**req)
 
         resp.raise_for_status()
         return resp.json() if resp.text else resp.text
@@ -134,9 +132,9 @@ class TVDBClient(object):
         if self.__token:
             try:
                 resp = self._refresh_token()
-            except requests.exceptions.HTTPError as err:
+            except exceptions.TVDBRequestException as err:
                 # if a 401 is the cause try to login
-                if err.response.status_code == 401:
+                if getattr(err.response, 'status_code', 0) == 401:
                     resp = self._login()
                 else:
                     raise

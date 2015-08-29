@@ -40,7 +40,7 @@ def next_release(major=False, minor=False, patch=True):
     import semantic_version
 
     prev = run('git describe --abbrev=0 --tags', hide=True).stdout
-    ver = semantic_version.Version(prev)
+    ver = semantic_version.Version.coerce(prev.strip())
     if major:
         return ver.next_major()
     if minor:
@@ -214,7 +214,11 @@ def release(major=False, minor=False, patch=True, pypi_index=None):
 @task
 def clean(all=False, docs=False, dist=False, extra=None):
     """Clean up build files"""
-    patterns = ['build', '*.egg-info/', '**/*.pyc']
+
+    run('find . -type f -name "*.py[co]" -delete')
+    run('find . -type d -name "__pycache__" -delete')
+
+    patterns = ['build', '*.egg-info/']
     if all or docs:
         patterns.append('doc/build/html/*')
     if all or dist:

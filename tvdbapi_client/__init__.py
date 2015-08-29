@@ -27,7 +27,7 @@ def get_client(config_file=None, apikey=None, username=None, userpass=None,
     :rtype: tvdbapi_client.api.TVDBClient
     """
 
-    from oslo.config import cfg
+    from oslo_config import cfg
 
     from tvdbapi_client import api
 

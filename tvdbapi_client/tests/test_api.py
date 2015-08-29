@@ -1,12 +1,12 @@
 import datetime
 import os
 
-from requests import exceptions
 import testtools
 from testtools import matchers
 
 import tvdbapi_client
 from tvdbapi_client import api
+from tvdbapi_client import exceptions
 from tvdbapi_client.tests import base
 from tvdbapi_client import timeutil
 
@@ -83,7 +83,7 @@ class ApiTest(base.BaseTest):
         self.assertEqual(len(series), 1)
         self.assertEqual(series[0]['id'], 80379)
 
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.search_series,
                           name='Fake Unknown Test')
 
@@ -96,7 +96,7 @@ class ApiTest(base.BaseTest):
         series = self.client.get_series(80379)
         self.assertEqual(series['seriesName'], 'The Big Bang Theory')
 
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_series,
                           0)
 
@@ -105,7 +105,7 @@ class ApiTest(base.BaseTest):
         episodes = self.client.get_episodes(94981)
         self.assertEqual(len(episodes), 17)
 
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episodes,
                           0)
 
@@ -114,7 +114,7 @@ class ApiTest(base.BaseTest):
         ep_summary = self.client.get_episodes_summary(94981)
         self.assertEqual(ep_summary['airedEpisodes'], '17')
 
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episodes_summary,
                           0)
 
@@ -123,7 +123,7 @@ class ApiTest(base.BaseTest):
         image_info = self.client.get_series_image_info(94981)
         self.assertEqual(image_info['series'], 2)
 
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_series_image_info,
                           0)
 
@@ -132,7 +132,7 @@ class ApiTest(base.BaseTest):
         episode = self.client.get_episode(1137661)
         self.assertEqual(episode['episodeName'], 'Diamond Jane')
 
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episode,
                           0)
 
@@ -144,7 +144,7 @@ class SimpleApiTest(base.BaseTest):
         self.assertIsInstance(client, api.TVDBClient)
 
         # validate client not configured
-        self.assertRaises(exceptions.HTTPError,
+        self.assertRaises(exceptions.TVDBRequestException,
                           client.authenticate)
 
     @testtools.skipIf(disabled(), 'live api testing disabled')
