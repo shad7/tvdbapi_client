@@ -12,6 +12,9 @@ coveralls
 Sphinx>=1.3.1
 alabaster
 
+# packaging
+wheel
+
 # testing
 nose
 oslotest
