@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.1.2
+-----
+
+* [RELEASE] Update to version v0.1.2
+* [TASK] Add auto-generated code documentation
+* [TASK] Clean up documentation
+* [FEATURE] Filter episodes
+
 0.1.1
 -----
 
