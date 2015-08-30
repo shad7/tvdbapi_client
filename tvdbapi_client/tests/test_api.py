@@ -75,11 +75,11 @@ class ApiTest(base.BaseTest):
         self.assertEqual(len(series), 1)
         self.assertEqual(series[0]['id'], 80379)
 
-        series = self.client.search_series(imdbid='tt0898266')
+        series = self.client.search_series(imdbId='tt0898266')
         self.assertEqual(len(series), 1)
         self.assertEqual(series[0]['id'], 80379)
 
-        series = self.client.search_series(zap2itid='EP00931182')
+        series = self.client.search_series(zap2itId='EP00931182')
         self.assertEqual(len(series), 1)
         self.assertEqual(series[0]['id'], 80379)
 
@@ -104,6 +104,13 @@ class ApiTest(base.BaseTest):
     def test_get_episodes(self):
         episodes = self.client.get_episodes(94981)
         self.assertEqual(len(episodes), 17)
+
+        episodes = self.client.get_episodes(80379,
+                                            airedSeason=3,
+                                            airedEpisode=7)
+        self.assertEqual(len(episodes), 1)
+        self.assertEqual(episodes[0].get('episodeName'),
+                         'The Guitarist Amplification')
 
         self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episodes,

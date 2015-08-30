@@ -24,6 +24,22 @@ DEFAULT_HEADERS = {
     'Content-Type': 'application/json',
     }
 
+SERIES_BY = [
+    'name',
+    'imdbId',
+    'zap2itId',
+    ]
+
+EPISODES_BY = [
+    'airedSeason',
+    'airedEpisode',
+    'imdbId',
+    'dvdSeason',
+    'dvdEpisode',
+    'absoluteNumber',
+    'page',
+    ]
+
 
 def requires_auth(f):
     """Handles authentication checks.
@@ -145,26 +161,27 @@ class TVDBClient(object):
         self._token_timer = timeutil.utcnow()
 
     @requires_auth
-    def search_series(self, name=None, imdbid=None, zap2itid=None):
+    def search_series(self, **kwargs):
         """Provides the ability to search for a series.
 
         .. warning::
 
             authorization token required
 
-        :param str name: name of series
-        :param str imdbid: IMDB id
-        :param str zap2itid: zap2it id
+        The following search arguments currently supported:
+
+            * name
+            * imdbId
+            * zap2itId
+
+        :param kwargs: keyword arguments to search for series
         :returns: series record or series records
         :rtype: dict
         """
         params = {}
-        if name:
-            params['name'] = name
-        if imdbid:
-            params['imdbId'] = imdbid
-        if zap2itid:
-            params['zap2itId'] = zap2itid
+        for arg, val in six.iteritems(kwargs):
+            if arg in SERIES_BY:
+                params[arg] = val
         resp = self._exec_request(
             'search', path_args=['series'], params=params)
         if cfg.CONF.select_first:
@@ -186,7 +203,7 @@ class TVDBClient(object):
         return self._exec_request('series', path_args=[series_id])['data']
 
     @requires_auth
-    def get_episodes(self, series_id, page=None):
+    def get_episodes(self, series_id, **kwargs):
         """All episodes for a given series.
 
         Paginated with 100 results per page.
@@ -195,17 +212,28 @@ class TVDBClient(object):
 
             authorization token required
 
+        The following search arguments currently supported:
+
+            * airedSeason
+            * airedEpisode
+            * imdbId
+            * dvdSeason
+            * dvdEpisode
+            * absoluteNumber
+            * page
+
         :param str series_id: id of series as found on thetvdb
-        :param int page: Page of results to fetch.
-                         Defaults to page 1 if not provided.
+        :parm kwargs: keyword args to search/filter episodes by (optional)
         :returns: series episode records
         :rtype: list
         """
-        params = {}
-        if page:
-            params['page'] = page
+        params = {'page': 1}
+        for arg, val in six.iteritems(kwargs):
+            if arg in EPISODES_BY:
+                params[arg] = val
         return self._exec_request(
-            'series', path_args=[series_id, 'episodes'], params=params)['data']
+            'series',
+            path_args=[series_id, 'episodes', 'query'], params=params)['data']
 
     @requires_auth
     def get_episodes_summary(self, series_id):

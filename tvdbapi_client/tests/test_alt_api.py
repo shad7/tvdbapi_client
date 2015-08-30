@@ -87,14 +87,14 @@ class MockedApiTest(base.BaseHTTPTest):
         self.stub_url(parts=['search', 'series'],
                       params={'imdbId': 'tt0898266'},
                       data=resp_data)
-        series = self.client.search_series(imdbid='tt0898266')
+        series = self.client.search_series(imdbId='tt0898266')
         self.assertEqual(len(series), 1)
         self.assertEqual(series[0]['id'], 80379)
 
         self.stub_url(parts=['search', 'series'],
                       params={'zap2itId': 'EP00931182'},
                       data=resp_data)
-        series = self.client.search_series(zap2itid='EP00931182')
+        series = self.client.search_series(zap2itId='EP00931182')
         self.assertEqual(len(series), 1)
         self.assertEqual(series[0]['id'], 80379)
 
@@ -104,6 +104,14 @@ class MockedApiTest(base.BaseHTTPTest):
         self.assertRaises(exceptions.TVDBRequestException,
                           self.client.search_series,
                           name='Fake Unknown Test')
+
+        self.stub_url(parts=['search', 'series'],
+                      params={'name': 'Fake Unknown Test'},
+                      status_code=404)
+        self.assertRaises(exceptions.TVDBRequestException,
+                          self.client.search_series,
+                          name='Fake Unknown Test',
+                          unknown='xyz')
 
         self.stub_url(parts=['search', 'series'],
                       params={'name': 'The Big Bang Theory'},
@@ -144,22 +152,28 @@ class MockedApiTest(base.BaseHTTPTest):
             as_list=True,
             total=17)
 
-        self.stub_url(parts=['series', 94981, 'episodes'],
+        self.stub_url(parts=['series', 94981, 'episodes', 'query'],
                       data=resp_data)
         episodes = self.client.get_episodes(94981)
         self.assertEqual(len(episodes), 17)
 
-        self.stub_url(parts=['series', 94981, 'episodes'],
+        self.stub_url(parts=['series', 94981, 'episodes', 'query'],
                       params={'page': 1},
                       data=resp_data)
         episodes = self.client.get_episodes(94981, page=1)
         self.assertEqual(len(episodes), 17)
 
-        self.stub_url(parts=['series', 0, 'episodes'],
+        self.stub_url(parts=['series', 0, 'episodes', 'query'],
                       status_code=404)
         self.assertRaises(exceptions.TVDBRequestException,
                           self.client.get_episodes,
                           0)
+
+        self.stub_url(parts=['series', 0, 'episodes', 'query'],
+                      status_code=404)
+        self.assertRaises(exceptions.TVDBRequestException,
+                          self.client.get_episodes,
+                          0, other='abc')
 
     def test_get_episodes_summary(self):
         resp_data = schema_helper.make_response(
