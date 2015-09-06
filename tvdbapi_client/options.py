@@ -26,7 +26,7 @@ OPTS = [
                 help='flag for selecting first series from search results'),
 ]
 
-cfg.CONF.register_opts(OPTS)
+cfg.CONF.register_opts(OPTS, 'tvdb')
 
 
 def _make_opt_list(opts, group):

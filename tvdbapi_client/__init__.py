@@ -35,16 +35,16 @@ def get_client(config_file=None, apikey=None, username=None, userpass=None,
         cfg.CONF([], default_config_files=[config_file])
     else:
         if apikey is not None:
-            cfg.CONF.set_override('apikey', apikey)
+            cfg.CONF.set_override('apikey', apikey, 'tvdb')
         if username is not None:
-            cfg.CONF.set_override('username', username)
+            cfg.CONF.set_override('username', username, 'tvdb')
         if userpass is not None:
-            cfg.CONF.set_override('userpass', userpass)
+            cfg.CONF.set_override('userpass', userpass, 'tvdb')
         if service_url is not None:
-            cfg.CONF.set_override('service_url', service_url)
+            cfg.CONF.set_override('service_url', service_url, 'tvdb')
         if verify_ssl_certs is not None:
-            cfg.CONF.set_override('verify_ssl_certs', verify_ssl_certs)
+            cfg.CONF.set_override('verify_ssl_certs', verify_ssl_certs, 'tvdb')
         if select_first is not None:
-            cfg.CONF.set_override('select_first', select_first)
+            cfg.CONF.set_override('select_first', select_first, 'tvdb')
 
     return api.TVDBClient()

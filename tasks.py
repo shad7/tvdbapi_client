@@ -39,7 +39,7 @@ def next_release(major=False, minor=False, patch=True):
 
     import semantic_version
 
-    prev = run('git describe --abbrev=0 --tags', hide=True).stdout
+    prev = run('git describe --abbrev=0 --tags', warn=True, hide=True).stdout or '0.0.0'
     ver = semantic_version.Version.coerce(prev.strip())
     if major:
         return ver.next_major()
