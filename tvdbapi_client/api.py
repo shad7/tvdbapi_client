@@ -12,12 +12,7 @@ from tvdbapi_client import timeutil
 
 LOG = logging.getLogger(__name__)
 
-cfg.CONF.import_opt('apikey', 'tvdbapi_client.options')
-cfg.CONF.import_opt('username', 'tvdbapi_client.options')
-cfg.CONF.import_opt('userpass', 'tvdbapi_client.options')
-cfg.CONF.import_opt('service_url', 'tvdbapi_client.options')
-cfg.CONF.import_opt('verify_ssl_certs', 'tvdbapi_client.options')
-cfg.CONF.import_opt('select_first', 'tvdbapi_client.options')
+cfg.CONF.import_group('tvdb', 'tvdbapi_client.options')
 
 DEFAULT_HEADERS = {
     'Accept-Language': 'en',
@@ -65,9 +60,9 @@ class TVDBClient(object):
         :param str username: username used on thetvdb
         :param str userpass: password used on thetvdb
         """
-        self.__apikey = apikey or cfg.CONF.apikey
-        self.__username = username or cfg.CONF.username
-        self.__userpass = userpass or cfg.CONF.userpass
+        self.__apikey = apikey or cfg.CONF.tvdb.apikey
+        self.__username = username or cfg.CONF.tvdb.username
+        self.__userpass = userpass or cfg.CONF.tvdb.userpass
         self.__token = None
 
         self._token_timer = None
@@ -119,12 +114,12 @@ class TVDBClient(object):
 
         req = {
             'method': method or 'get',
-            'url': '/'.join(str(a).strip('/') for a in [cfg.CONF.service_url,
-                                                        service] + path_args),
+            'url': '/'.join(str(a).strip('/') for a in [
+                cfg.CONF.tvdb.service_url, service] + path_args),
             'data': json.dumps(data) if data else None,
             'headers': self.headers,
             'params': params,
-            'verify': cfg.CONF.verify_ssl_certs,
+            'verify': cfg.CONF.tvdb.verify_ssl_certs,
             }
 
         LOG.debug('executing request (%s %s)', req['method'], req['url'])
@@ -184,7 +179,7 @@ class TVDBClient(object):
                 params[arg] = val
         resp = self._exec_request(
             'search', path_args=['series'], params=params)
-        if cfg.CONF.select_first:
+        if cfg.CONF.tvdb.select_first:
             return resp['data'][0]
         return resp['data']
 

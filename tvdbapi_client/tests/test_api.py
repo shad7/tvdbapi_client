@@ -87,7 +87,7 @@ class ApiTest(base.BaseTest):
                           self.client.search_series,
                           name='Fake Unknown Test')
 
-        self.CONF.set_override('select_first', True)
+        self.CONF.set_override('select_first', True, 'tvdb')
         series = self.client.search_series(name='The Big Bang Theory')
         self.assertEqual(series['id'], 80379)
 

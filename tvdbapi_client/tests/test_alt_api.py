@@ -13,7 +13,7 @@ from tvdbapi_client.tests import schema_helper
 class MockedApiTest(base.BaseHTTPTest):
 
     cfg_data = []
-    cfg_data.append('[DEFAULT]\n')
+    cfg_data.append('[tvdb]\n')
     cfg_data.append('apikey=abc123xyz456\n')
     cfg_data.append('username=test_user\n')
     cfg_data.append('userpass=sample\n')
@@ -23,7 +23,7 @@ class MockedApiTest(base.BaseHTTPTest):
 
     def setUp(self):
         super(MockedApiTest, self).setUp()
-        self.base_url = self.CONF.service_url
+        self.base_url = self.CONF.tvdb.service_url
 
         self.stub_url(method='post',
                       parts=['login'],
@@ -116,7 +116,7 @@ class MockedApiTest(base.BaseHTTPTest):
         self.stub_url(parts=['search', 'series'],
                       params={'name': 'The Big Bang Theory'},
                       data=resp_data)
-        self.CONF.set_override('select_first', True)
+        self.CONF.set_override('select_first', True, 'tvdb')
         series = self.client.search_series(name='The Big Bang Theory')
         self.assertEqual(series['id'], 80379)
 

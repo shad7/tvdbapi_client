@@ -8,7 +8,10 @@ TVDB Api Client
     :target: https://travis-ci.org/shad7/tvdbapi_client
 
 .. image:: https://coveralls.io/repos/shad7/tvdbapi_client/badge.svg?branch=develop
-  :target: https://coveralls.io/r/shad7/tvdbapi_client?branch=develop
+    :target: https://coveralls.io/r/shad7/tvdbapi_client?branch=develop
+
+.. image:: https://requires.io/github/shad7/tvdbapi_client/requirements.svg?branch=develop
+    :target: https://requires.io/github/shad7/tvdbapi_client/requirements/?branch=develop
 
 
 Python client for theTVDB API (v1.2+) REST endpoints in json format.
