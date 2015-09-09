@@ -1,7 +1,7 @@
 Available Configuration Options
 ===============================
 
-.. show-options:: tvdbapi_client
+.. show-options:: tvdbapi.opts
 
 
 Configuring service can be done by either of the following:

@@ -1,16 +1,15 @@
-[DEFAULT]
+[tvdb]
 
-#
-# From tvdbapi_client
+# From tvdbapi.opts
 #
 
-# thetvdb api key (string value)
+# API key from your TVDB account ENV['TVDB_API_KEY'] (string value)
 #apikey = <None>
 
-# thetvdb user login name (string value)
+# Username from your TVDB account ENV['TVDB_USERNAME'] (string value)
 #username = <None>
 
-# thetvdb user password (string value)
+# Password from your TVDB account ENV['TVDB_PASSWORD'] (string value)
 #userpass = <None>
 
 # the url for thetvdb api service (string value)
@@ -22,3 +21,4 @@
 
 # flag for selecting first series from search results (boolean value)
 #select_first = false
+
