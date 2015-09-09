@@ -60,4 +60,4 @@ def list_opts():
 
     :returns: a list of (group_name, opts) tuples
     """
-    return _make_opt_list([OPTS], None)
+    return _make_opt_list([OPTS], 'tvdb')
