@@ -4,7 +4,7 @@ source = tvdbapi_client
 omit = tvdbapi_client/tests/*
 
 [report]
-ignore-errors = True
+ignore_errors = True
 
 exclude_lines =
     # Have to re-enable the standard pragma
