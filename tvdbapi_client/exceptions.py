@@ -1,16 +1,17 @@
+"""Exceptions for API and decorator to wrap request exceptions."""
 from requests import exceptions
 import six
 
 
-def error_map(f):
-    """Wraps exceptions raised by requests.
+def error_map(func):
+    """Wrap exceptions raised by requests.
 
     .. py:decorator:: error_map
     """
-    @six.wraps(f)
+    @six.wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            return f(*args, **kwargs)
+            return func(*args, **kwargs)
         except exceptions.RequestException as err:
             raise TVDBRequestException(
                 (getattr(err, 'errno', None),
@@ -21,4 +22,5 @@ def error_map(f):
 
 
 class TVDBRequestException(exceptions.RequestException):
+    """Provide a base exception for local use."""
     pass

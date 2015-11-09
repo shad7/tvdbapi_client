@@ -17,13 +17,13 @@ cfg.CONF.import_group('tvdb', 'tvdbapi_client.options')
 DEFAULT_HEADERS = {
     'Accept-Language': 'en',
     'Content-Type': 'application/json',
-    }
+}
 
 SERIES_BY = [
     'name',
     'imdbId',
     'zap2itId',
-    ]
+]
 
 EPISODES_BY = [
     'airedSeason',
@@ -33,29 +33,29 @@ EPISODES_BY = [
     'dvdEpisode',
     'absoluteNumber',
     'page',
-    ]
+]
 
 
-def requires_auth(f):
-    """Handles authentication checks.
+def requires_auth(func):
+    """Handle authentication checks.
 
     .. py:decorator:: requires_auth
 
         Checks if the token has expired and performs authentication if needed.
     """
-    @six.wraps(f)
+    @six.wraps(func)
     def wrapper(self, *args, **kwargs):
         if self.token_expired:
             self.authenticate()
-        return f(self, *args, **kwargs)
+        return func(self, *args, **kwargs)
     return wrapper
 
 
 class TVDBClient(object):
+        """TVDB Api client."""
 
     def __init__(self, apikey=None, username=None, userpass=None):
-        """TVDB Api client
-
+        """
         :param str apikey: apikey from thetvdb
         :param str username: username used on thetvdb
         :param str userpass: password used on thetvdb
@@ -72,7 +72,7 @@ class TVDBClient(object):
 
     @property
     def headers(self):
-        """Provides access to updated headers."""
+        """Provide access to updated headers."""
         self._headers.update(**{'Accept-Language': self.language})
         if self.__token:
             self._headers.update(
@@ -81,23 +81,24 @@ class TVDBClient(object):
 
     @property
     def language(self):
-        """Provides access to current language."""
+        """Provide access to current language."""
         return self._language
 
     @language.setter
     def language(self, abbr):
+        """Provide access to update language."""
         self._language = abbr
 
     @property
     def token_expired(self):
-        """Provides access to flag indicating if token has expired."""
+        """Provide access to flag indicating if token has expired."""
         if self._token_timer is None:
             return True
         return timeutil.is_newer_than(self._token_timer, timeutil.ONE_HOUR)
 
     @property
     def session(self):
-        """Provides access to request session with local cache enabled."""
+        """Provide access to request session with local cache enabled."""
         if self._session is None:
             self._session = cachecontrol.CacheControl(
                 requests.Session(),
@@ -107,8 +108,7 @@ class TVDBClient(object):
     @exceptions.error_map
     def _exec_request(self, service, method=None, path_args=None, data=None,
                       params=None):
-        """Execute request"""
-
+        """Execute request."""
         if path_args is None:
             path_args = []
 
@@ -120,7 +120,7 @@ class TVDBClient(object):
             'headers': self.headers,
             'params': params,
             'verify': cfg.CONF.tvdb.verify_ssl_certs,
-            }
+        }
 
         LOG.debug('executing request (%s %s)', req['method'], req['url'])
         resp = self.session.request(**req)
@@ -139,7 +139,7 @@ class TVDBClient(object):
         return self._exec_request('refresh_token')
 
     def authenticate(self):
-        """Aquires authorization token for using thetvdb apis."""
+        """Aquire authorization token for using thetvdb apis."""
         if self.__token:
             try:
                 resp = self._refresh_token()
@@ -157,7 +157,7 @@ class TVDBClient(object):
 
     @requires_auth
     def search_series(self, **kwargs):
-        """Provides the ability to search for a series.
+        """Provide the ability to search for a series.
 
         .. warning::
 
@@ -232,7 +232,7 @@ class TVDBClient(object):
 
     @requires_auth
     def get_episodes_summary(self, series_id):
-        """Returns a summary of the episodes and seasons for the series.
+        """Return a summary of the episodes and seasons for the series.
 
         .. warning::
 
@@ -251,7 +251,7 @@ class TVDBClient(object):
 
     @requires_auth
     def get_series_image_info(self, series_id):
-        """Returns a summary of the images for a particular series
+        """Return a summary of the images for a particular series.
 
         .. warning::
 
@@ -266,7 +266,7 @@ class TVDBClient(object):
 
     @requires_auth
     def get_episode(self, episode_id):
-        """Returns the full information for a given episode id.
+        """Return the full information for a given episode id.
 
         .. warning::
 
