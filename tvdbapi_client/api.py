@@ -1,3 +1,4 @@
+"""Provide API client for TVDB API v2.0 services."""
 import json
 import logging
 
@@ -52,10 +53,12 @@ def requires_auth(func):
 
 
 class TVDBClient(object):
-        """TVDB Api client."""
+
+    """TVDB Api client."""
 
     def __init__(self, apikey=None, username=None, userpass=None):
-        """
+        """Create new instance of API client.
+
         :param str apikey: apikey from thetvdb
         :param str username: username used on thetvdb
         :param str userpass: password used on thetvdb
