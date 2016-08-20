@@ -134,7 +134,7 @@ class TVDBClient(object):
     def _login(self):
         data = {'apikey': self.__apikey,
                 'username': self.__username,
-                'userpass': self.__userpass,
+                'userkey': self.__userpass,
                 }
         return self._exec_request('login', method='post', data=data)
 
