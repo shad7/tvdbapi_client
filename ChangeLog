@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.1.5
+-----
+
+* [RELEASE] Update to version v0.1.5
+* change userpass to userkey so we can authenticate
+* [TASK] Update coverage configuration file
+* [TASK] General cleanup
+
 0.1.4
 -----
 
