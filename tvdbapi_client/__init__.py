@@ -1,18 +1,16 @@
-__all__ = ['__version__', 'get_client']
-
+"""Provide a simple entry point to configure an API client."""
 import logging
 
 import pbr.version
 
 logging.getLogger(__package__).addHandler(logging.NullHandler())
 
-version_info = pbr.version.VersionInfo(__package__)
-__version__ = version_info.version_string()
+__version__ = pbr.version.VersionInfo(__package__).version_string()
 
 
 def get_client(config_file=None, apikey=None, username=None, userpass=None,
                service_url=None, verify_ssl_certs=None, select_first=None):
-    """Configures the API service and creates a new instance of client.
+    """Configure the API service and creates a new instance of client.
 
     :param str config_file: absolute path to configuration file
     :param str apikey: apikey from thetvdb
@@ -26,7 +24,6 @@ def get_client(config_file=None, apikey=None, username=None, userpass=None,
     :returns: tvdbapi client
     :rtype: tvdbapi_client.api.TVDBClient
     """
-
     from oslo_config import cfg
 
     from tvdbapi_client import api
@@ -48,3 +45,6 @@ def get_client(config_file=None, apikey=None, username=None, userpass=None,
             cfg.CONF.set_override('select_first', select_first, 'tvdb')
 
     return api.TVDBClient()
+
+
+__all__ = ['__version__', 'get_client']
