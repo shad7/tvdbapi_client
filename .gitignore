@@ -61,3 +61,6 @@ doc/build/
 # virtualenv
 venv/
 .venv/
+
+.tmp/
+.tvdb_cache/

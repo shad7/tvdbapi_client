@@ -1,0 +1,21 @@
+FROM python:3.5-alpine
+
+ENV VIRTUAL_ENV /tmp/venv3.5
+ENV PATH=$VIRTUAL_ENV/bin:$PATH
+
+RUN apk add --no-cache \
+        bash \
+        git \
+    && pip3 install --no-cache-dir --upgrade \
+        pip \
+        virtualenv \
+    && rm -rf /var/cache/apk/* \
+    && virtualenv $VIRTUAL_ENV \
+    && pip install --no-cache-dir --upgrade \
+        invoke==0.11.1
+
+COPY requirements.txt /tmp/requirements.txt
+COPY test-requirements.txt /tmp/test-requirements.txt
+
+RUN pip install -r /tmp/requirements.txt \
+    && pip install -r /tmp/test-requirements.txt
