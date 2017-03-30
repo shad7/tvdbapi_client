@@ -14,8 +14,7 @@ def error_map(func):
             return func(*args, **kwargs)
         except exceptions.RequestException as err:
             raise TVDBRequestException(
-                (getattr(err, 'errno', None),
-                 getattr(err, 'strerror', None)),
+                err,
                 response=getattr(err, 'response', None),
                 request=getattr(err, 'request', None))
     return wrapper
@@ -23,4 +22,5 @@ def error_map(func):
 
 class TVDBRequestException(exceptions.RequestException):
     """Provide a base exception for local use."""
+
     pass
