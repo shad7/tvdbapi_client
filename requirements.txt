@@ -1,10 +1,10 @@
-pbr>=1.1.1
+pbr>=2.0.0
 twine
 
-six>=1.9.0
-oslo.config>=1.9.0
+six>=1.10.0
+oslo.config>=3.23.0
 
-requests>=2.7.0
+requests>=2.13.0
+# required by CacheControl to use FileCache
 lockfile
-CacheControl>=0.11.5
-
+CacheControl>=0.12.2
